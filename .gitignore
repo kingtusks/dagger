@@ -2,3 +2,5 @@ backend/target
 backend/Cargo.lock
 old_backend/
 .idea/
+.venv/
+.env
