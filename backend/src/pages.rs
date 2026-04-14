@@ -1,11 +1,16 @@
-use axum::{
-    extract::Path,
-};
+use serde::Serialize;
+use axum::Json;
 
-pub async fn handler() -> &'static str {
-    "allo!"
+#[derive(Serialize)]
+pub struct HomeData {
+    pub title: String,
+    pub description: String,
 }
 
-pub async fn greet(Path(name): Path<String>) -> String {
-    format!("hello, {}", name)
+pub async fn home_data() -> Json<HomeData> {
+    Json(HomeData {
+        title: "Welcome".to_string(),
+        description: "This came from rust!".to_string(), 
+    })
 }
+
