@@ -4,3 +4,4 @@ old_backend/
 .idea/
 .venv/
 .env
+__pycache__/

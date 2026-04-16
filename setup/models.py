@@ -3,10 +3,10 @@ from sqlalchemy import (
     ForeignKey, Enum, UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import DeclarativeBase, relationship
+from sqlalchemy.orm import declarative_base, relationship
 import enum
 
-Base = DeclarativeBase()
+Base = declarative_base()
 
 class SeasonType(enum.Enum):
     regular = "regular"
