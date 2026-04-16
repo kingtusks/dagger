@@ -2,3 +2,6 @@ sqlalchemy
 psycopg2
 python-decouple
 nba_api
+ddgs
+langchain-core
+langchain-ollama
