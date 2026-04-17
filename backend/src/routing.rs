@@ -5,7 +5,7 @@ use crate::pages;
 use crate::db;
 
 pub async fn app() -> Router {
-    let state = db::pool().await;
+    let state = db::create_pool().await;
     Router::new()
         .route("/api/stats/{player_name}", get(pages::stats))
         .with_state(state)

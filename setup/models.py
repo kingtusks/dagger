@@ -39,6 +39,7 @@ class SeasonStats(Base):
     id              = Column(Integer, primary_key=True, autoincrement=True)
     player_id       = Column(Integer, ForeignKey("players.player_id"), nullable=False)
     season          = Column(String(10))
+    season_id       = Column(String(10))
     team_id         = Column(String(10))
     league_id       = Column(String(10))
     team_abbr       = Column(String(5))
