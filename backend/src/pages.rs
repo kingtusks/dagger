@@ -1,16 +1,19 @@
-use serde::Serialize;
-use axum::Json;
+use serde::{Serialize, Deserialize};
+use axum::{Json, extract::Path};
+use sqlx::FromRow;
 
-#[derive(Serialize)]
-pub struct HomeData {
-    pub title: String,
-    pub description: String,
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct PlayerStats {
+    pub player_name: String,
+    pub pts: i32,
+    pub dreb: i32,
 }
 
-pub async fn home_data() -> Json<HomeData> {
-    Json(HomeData {
-        title: "Welcome".to_string(),
-        description: "This came from rust!".to_string(), 
+pub async fn stats(Path(player_name): Path<String>) -> Json<PlayerStats> {
+
+    Json(PlayerStats {
+        player_name: player_name,
+        pts: 11,
+        dreb: 7,
     })
 }
-

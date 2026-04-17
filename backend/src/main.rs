@@ -1,15 +1,11 @@
-use axum::{Router, routing::get};
-use tower_http::cors::CorsLayer;
+use backend::routing;
 
-mod pages;
+//don't unwrap in prod
 
 #[tokio::main]
 async fn main() {
-    let app = Router::new()
-        .route("/api/home", get(pages::home_data))
-        .layer(CorsLayer::permissive());
-
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let app = routing::app();
 
     println!("listening on http://localhost:3000");
     axum::serve(listener, app).await.unwrap();
