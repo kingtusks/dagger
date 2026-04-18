@@ -7,20 +7,47 @@ use crate::db::AppState;
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct PlayerStats {
     pub player_name: String,
-    pub pts: Option<i32>,
+    pub season: Option<String>,
+    pub team_abbr: Option<String>,
+    pub season_type: String,
+    pub player_age: Option<i32>,
+    pub gp: Option<i32>,
+    pub gs: Option<i32>,
+    pub minutes: Option<i32>,
+    pub fgm: Option<i32>,
+    pub fga: Option<i32>,
+    pub fg_pct: Option<f64>,
+    pub fg3m: Option<i32>,
+    pub fg3a: Option<i32>,
+    pub fg3_pct: Option<f64>,
+    pub ftm: Option<i32>,
+    pub fta: Option<i32>,
+    pub ft_pct: Option<f64>,
+    pub oreb: Option<i32>,
     pub dreb: Option<i32>,
+    pub reb: Option<i32>,
+    pub ast: Option<i32>,
+    pub stl: Option<i32>,
+    pub blk: Option<i32>,
+    pub tov: Option<i32>,
+    pub pf: Option<i32>,
+    pub pts: Option<i32>,
 }
 
-pub async fn stats(
+pub async fn player_stats(
     State(state): State<AppState>,
     Path(player_name): Path<String>,
 ) -> Json<Vec<PlayerStats>> {
     let stats = sqlx::query_as::<_, PlayerStats>(
         r#"
-        SELECT p.name AS player_name, s.pts, s.dreb
+        SELECT p.name AS player_name, s.season, s.team_abbr, s.season_type::TEXT AS season_type,
+            s.player_age, s.gp, s.gs, s.minutes, s.fgm, s.fga, s.fg_pct,
+            s.fg3m, s.fg3a, s.fg3_pct, s.ftm, s.fta, s.ft_pct,
+            s.oreb, s.dreb, s.reb, s.ast, s.stl, s.blk, s.tov, s.pf, s.pts
         FROM season_stats s
         JOIN players p ON p.player_id = s.player_id
         WHERE LOWER(p.name) = LOWER($1)
+        ORDER BY s.season ASC
         "#,
     )
     .bind(player_name)

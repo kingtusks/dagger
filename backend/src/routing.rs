@@ -7,7 +7,7 @@ use crate::db;
 pub async fn app() -> Router {
     let state = db::create_pool().await;
     Router::new()
-        .route("/api/stats/{player_name}", get(pages::stats))
+        .route("/api/stats/{player_name}", get(pages::player_stats))
         .with_state(state)
         .layer(CorsLayer::permissive())
 }
