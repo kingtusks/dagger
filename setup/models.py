@@ -33,15 +33,13 @@ class Player(Base):
 class SeasonStats(Base):
     __tablename__ = "season_stats"
     __table_args__ = (
-        UniqueConstraint("player_id", "season_id", "team_id", "season_type"),
+        UniqueConstraint("player_id", "season", "team_id", "season_type"),
     )
 
     id              = Column(Integer, primary_key=True, autoincrement=True)
     player_id       = Column(Integer, ForeignKey("players.player_id"), nullable=False)
     season          = Column(String(10))
-    season_id       = Column(String(10))
-    team_id         = Column(String(10))
-    league_id       = Column(String(10))
+    team_id         = Column(Integer)
     team_abbr       = Column(String(5))
     season_type     = Column(Enum(SeasonType), nullable=False, default=SeasonType.regular)
     player_age      = Column(Integer)
