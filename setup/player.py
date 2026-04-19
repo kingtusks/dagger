@@ -1,8 +1,11 @@
 from nba_api.stats.endpoints import commonplayerinfo
 
 def to_CM(height: str):
-    height = height.split("-")
-    return round(int(height[0]) * 30.48 + int(height[1]) * 2.54)
+    try:
+        height = height.split("-")
+        return round(int(height[0]) * 30.48 + int(height[1]) * 2.54)
+    except:
+        return None
 
 def getPlayerInfo(pid: int):
     info_df = commonplayerinfo.CommonPlayerInfo(player_id=pid).get_data_frames()[0] 
@@ -23,7 +26,7 @@ def getPlayerInfo(pid: int):
     info_df = info_df[needed_columns]
     info_df = info_df.rename({"DISPLAY_FIRST_LAST": "NAME"}, axis=1)
 
-    for col in ["DRAFT_YEAR", "DRAFT_ROUND", "DRAFT_NUMBER"]:
+    for col in ["DRAFT_YEAR", "DRAFT_ROUND", "DRAFT_NUMBER", "HEIGHT", "WEIGHT"]:
         info_df[col] = info_df[col].apply(lambda x: int(x) if str(x).isdigit() else None)
 
     return info_df

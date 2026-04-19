@@ -1,4 +1,5 @@
 import models
+import time
 import pandas as pd
 from database import engine, sessionDB
 from nba_api.stats.static import players
@@ -35,8 +36,8 @@ for player in players:
             country = info_df["COUNTRY"].iloc[0],
             school = extra_info['college'],
             birthdate = datetime.fromisoformat(info_df["BIRTHDATE"].iloc[0]).date(),
-            height = to_CM(info_df["HEIGHT"].iloc[0]),
-            weight = int(info_df["WEIGHT"].iloc[0]),
+            height = to_CM(info_df["HEIGHT"].iloc[0]) if info_df["HEIGHT"].iloc[0] else 0,
+            weight = int(info_df["WEIGHT"].iloc[0]) if info_df["WEIGHT"].iloc[0] else 0,
             draft_year = int(info_df["DRAFT_YEAR"].iloc[0]) if info_df["DRAFT_YEAR"].iloc[0] else 0,
             draft_round = int(info_df["DRAFT_ROUND"].iloc[0]) if info_df["DRAFT_ROUND"].iloc[0] else 0,
             draft_pick = int(info_df["DRAFT_NUMBER"].iloc[0]) if info_df["DRAFT_NUMBER"].iloc[0] else 0,
@@ -133,9 +134,15 @@ for player in players:
         db.add_all(award_list)
         db.commit()
         print(f"finished {player["full_name"]}: {player["id"]}")
+        time.sleep(1)
+    except KeyError as e:
+        print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
+        with open("fails.txt", "w") as f:
+            f.write(f"{player["full_name"]}: {player["id"]}\n\n{e}\n\n")
+        break
     except Exception as e:
         db.rollback()
         print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
         break
 
-db.close()
+db.close()    

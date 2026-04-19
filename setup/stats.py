@@ -2,6 +2,7 @@ from nba_api.stats.endpoints import playercareerstats
 
 def getSeasonStats(pid: int):
     stats = playercareerstats.PlayerCareerStats(player_id=pid).get_data_frames()
+    #print(stats)
     regStats = stats[0]
     postStats = stats[2]
 
