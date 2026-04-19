@@ -4,7 +4,7 @@ def to_CM(height: str):
     height = height.split("-")
     return round(int(height[0]) * 30.48 + int(height[1]) * 2.54)
 
-def getPlayer(pid: int):
+def getPlayerInfo(pid: int):
     info_df = commonplayerinfo.CommonPlayerInfo(player_id=pid).get_data_frames()[0] 
 
     needed_columns = [

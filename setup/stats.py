@@ -1,6 +1,6 @@
 from nba_api.stats.endpoints import playercareerstats
 
-def formatSeasonStats(pid: int):
+def getSeasonStats(pid: int):
     stats = playercareerstats.PlayerCareerStats(player_id=pid).get_data_frames()
     regStats = stats[0]
     postStats = stats[2]
@@ -18,7 +18,11 @@ def formatSeasonStats(pid: int):
     regStats = regStats.rename({"SEASON_ID": "SEASON"}, axis=1)    
     postStats = postStats.rename({"SEASON_ID": "SEASON"}, axis=1)
 
+    regStats = regStats.fillna(0)
+    postStats = postStats.fillna(0)
+
     return regStats, postStats
+    
 '''
 #(TESTING)
 bron_id = 2544
