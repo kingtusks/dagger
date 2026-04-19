@@ -22,6 +22,10 @@ def getPlayerInfo(pid: int):
 
     info_df = info_df[needed_columns]
     info_df = info_df.rename({"DISPLAY_FIRST_LAST": "NAME"}, axis=1)
+
+    for col in ["DRAFT_YEAR", "DRAFT_ROUND", "DRAFT_NUMBER"]:
+        info_df[col] = info_df[col].apply(lambda x: int(x) if str(x).isdigit() else None)
+
     return info_df
 
 '''
