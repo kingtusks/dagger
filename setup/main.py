@@ -5,10 +5,10 @@ from database import engine, sessionDB
 from nba_api.stats.static import players
 from datetime import datetime
 
-from agent import getExtraPlayerInfo
-from player import getPlayerInfo, to_CM
-from award import getAwards
-from stats import getSeasonStats
+from setup_functions.agent import getExtraPlayerInfo
+from setup_functions.player import getPlayerInfo, to_CM
+from setup_functions.award import getAwards
+from setup_functions.stats import getSeasonStats
 
 players= players.get_players()
 
@@ -139,7 +139,7 @@ for player in players:
         print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
         with open("fails.txt", "w") as f:
             f.write(f"{player["full_name"]}: {player["id"]}\n\n{e}\n\n")
-        break
+        #break
     except Exception as e:
         db.rollback()
         print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
