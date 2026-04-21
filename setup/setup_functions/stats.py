@@ -22,8 +22,8 @@ def getSeasonStats(pid: int):
     #regStats = regStats.fillna(0)
     #postStats = postStats.fillna(0)
 
-    regStats = regStats.where(regStats.notna(), other=None)
-    postStats = postStats.where(postStats.notna(), other=None)
+    regStats = regStats.astype(object).where(regStats.notna(), other=None)
+    postStats = postStats.astype(object).where(postStats.notna(), other=None)
 
     return regStats, postStats
     
