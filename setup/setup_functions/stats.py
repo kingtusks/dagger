@@ -19,8 +19,11 @@ def getSeasonStats(pid: int):
     regStats = regStats.rename({"SEASON_ID": "SEASON"}, axis=1)    
     postStats = postStats.rename({"SEASON_ID": "SEASON"}, axis=1)
 
-    regStats = regStats.fillna(0)
-    postStats = postStats.fillna(0)
+    #regStats = regStats.fillna(0)
+    #postStats = postStats.fillna(0)
+
+    regStats = regStats.where(regStats.notna(), other=None)
+    postStats = postStats.where(postStats.notna(), other=None)
 
     return regStats, postStats
     
