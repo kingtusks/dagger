@@ -15,9 +15,18 @@ players= players.get_players()
 models.Base.metadata.create_all(bind=engine)
 db = sessionDB()
 
+try:
+    with open("fails.txt", "r") as f:
+        failed_ids = {int(line.split(": ")[1]) for line in f if line.strip()}
+except FileNotFoundError:
+    failed_ids = set()
+
 for player in players:
     try:
         pid = player["id"]
+
+        if pid in failed_ids:
+            continue
 
         if db.get(models.Player, pid):
             continue
@@ -137,8 +146,8 @@ for player in players:
         time.sleep(1)
     except KeyError as e:
         print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
-        with open("fails.txt", "w") as f:
-            f.write(f"{player["full_name"]}: {player["id"]}\n\n{e}\n\n")
+        with open("fails.txt", "a") as f:
+            f.write(f"{player["full_name"]}: {player["id"]}\n")
         #break
     except Exception as e:
         db.rollback()
