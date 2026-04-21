@@ -22,6 +22,7 @@ except:
     failed_ids = set()
 
 for player in players:
+    time.sleep(1)
     try:
         pid = player["id"]
 
@@ -144,7 +145,6 @@ for player in players:
         db.add_all(award_list)
         db.commit()
         print(f"finished {player['full_name']}: {player['id']}")
-        time.sleep(1)
     except KeyError as e:
         print(f"failed on {player['full_name']}: {player['id']} \n\n{e}")
         with open("fails.txt", "a") as f:
