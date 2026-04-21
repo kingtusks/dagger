@@ -18,7 +18,7 @@ db = sessionDB()
 try:
     with open("fails.txt", "r") as f:
         failed_ids = {int(line.split(": ")[1]) for line in f if line.strip()}
-except FileNotFoundError:
+except:
     failed_ids = set()
 
 for player in players:
@@ -34,24 +34,7 @@ for player in players:
         info_df = getPlayerInfo(pid)
         pname = info_df["NAME"].iloc[0]
 
-        extra_info = None
-        while not extra_info:
-            extra_info = getExtraPlayerInfo(pname)
-
-        pinfo = models.Player(
-            player_id = pid,
-            name = pname,
-            nicknames = extra_info['nicknames'],
-            country = info_df["COUNTRY"].iloc[0],
-            school = extra_info['college'],
-            birthdate = datetime.fromisoformat(info_df["BIRTHDATE"].iloc[0]).date(),
-            height = to_CM(info_df["HEIGHT"].iloc[0]) if info_df["HEIGHT"].iloc[0] else 0,
-            weight = int(info_df["WEIGHT"].iloc[0]) if info_df["WEIGHT"].iloc[0] else 0,
-            draft_year = int(info_df["DRAFT_YEAR"].iloc[0]) if info_df["DRAFT_YEAR"].iloc[0] else 0,
-            draft_round = int(info_df["DRAFT_ROUND"].iloc[0]) if info_df["DRAFT_ROUND"].iloc[0] else 0,
-            draft_pick = int(info_df["DRAFT_NUMBER"].iloc[0]) if info_df["DRAFT_NUMBER"].iloc[0] else 0,
-        )
-
+        #model in end to avoid unneccessary llm calls
 
         stats = getSeasonStats(pid)
         regseason = stats[0]
@@ -136,6 +119,24 @@ for player in players:
             )
             for award in awards.itertuples()
         ]
+
+        extra_info = None
+        while not extra_info:
+            extra_info = getExtraPlayerInfo(pname)
+
+        pinfo = models.Player(
+            player_id = pid,
+            name = pname,
+            nicknames = extra_info['nicknames'],
+            country = info_df["COUNTRY"].iloc[0],
+            school = extra_info['college'],
+            birthdate = datetime.fromisoformat(info_df["BIRTHDATE"].iloc[0]).date(),
+            height = to_CM(info_df["HEIGHT"].iloc[0]) if info_df["HEIGHT"].iloc[0] else 0,
+            weight = int(info_df["WEIGHT"].iloc[0]) if info_df["WEIGHT"].iloc[0] else 0,
+            draft_year = int(info_df["DRAFT_YEAR"].iloc[0]) if info_df["DRAFT_YEAR"].iloc[0] else 0,
+            draft_round = int(info_df["DRAFT_ROUND"].iloc[0]) if info_df["DRAFT_ROUND"].iloc[0] else 0,
+            draft_pick = int(info_df["DRAFT_NUMBER"].iloc[0]) if info_df["DRAFT_NUMBER"].iloc[0] else 0,
+        )
 
         db.add(pinfo)
         db.add_all(reg_season_list)
