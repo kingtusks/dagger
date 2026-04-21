@@ -142,16 +142,16 @@ for player in players:
         db.add_all(post_season_list)
         db.add_all(award_list)
         db.commit()
-        print(f"finished {player["full_name"]}: {player["id"]}")
+        print(f"finished {player['full_name']}: {player['id']}")
         time.sleep(1)
     except KeyError as e:
-        print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
+        print(f"failed on {player['full_name']}: {player['id']} \n\n{e}")
         with open("fails.txt", "a") as f:
-            f.write(f"{player["full_name"]}: {player["id"]}\n")
+            f.write(f"{player['full_name']}: {player['id']}\n")
         #break
     except Exception as e:
         db.rollback()
-        print(f"failed on {player["full_name"]}: {player["id"]} \n\n{e}")
+        print(f"failed on {player['full_name']}: {player['id']} \n\n{e}")
         break
 
 db.close()    
