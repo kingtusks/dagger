@@ -6,7 +6,7 @@ use crate::db::AppState;
 
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct PlayerStats {
-    pub player_name: String,
+    pub name: String,
     pub season: Option<String>,
     pub team_abbr: Option<String>,
     pub season_type: String,
@@ -34,13 +34,19 @@ pub struct PlayerStats {
     pub pts: Option<i32>,
 }
 
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct Countries {
+    pub name: String,
+    pub country: String,
+}
+
 pub async fn player_stats(
     State(state): State<AppState>,
     Path(player_name): Path<String>,
 ) -> Json<Vec<PlayerStats>> {
     let stats = sqlx::query_as::<_, PlayerStats>(
         r#"
-        SELECT p.name AS player_name, s.season, s.team_abbr, s.season_type::TEXT AS season_type,
+        SELECT p.name, s.season, s.team_abbr, s.season_type::TEXT AS season_type,
             s.player_age, s.gp, s.gs, s.minutes, s.fgm, s.fga, s.fg_pct,
             s.fg3m, s.fg3a, s.fg3_pct, s.ftm, s.fta, s.ft_pct,
             s.oreb, s.dreb, s.reb, s.ast, s.stl, s.blk, s.tov, s.pf, s.pts
@@ -56,4 +62,20 @@ pub async fn player_stats(
     .unwrap();
 
     Json(stats)
+}
+
+pub async fn countries( //(change this later i just want an endpoint for now)
+    State(state): State<AppState>,
+) -> Json<Vec<Countries>> {
+    let countries = sqlx::query_as(
+        r#"
+        SELECT p.name, p.country
+        FROM players p
+        "#,
+    )
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(countries)
 }
