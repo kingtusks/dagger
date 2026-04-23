@@ -40,6 +40,8 @@ pub struct Countries {
     pub country: String,
 }
 
+//fuck structs
+
 pub async fn player_stats(
     State(state): State<AppState>,
     Path(player_name): Path<String>,
