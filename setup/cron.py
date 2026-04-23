@@ -1,5 +1,6 @@
 import models
 import time
+import enum
 import pandas as pd
 from database import engine, sessionDB
 from nba_api.stats.static import players
@@ -11,27 +12,45 @@ db = sessionDB()
 
 players = players.get_active_players()
 
-def updateStats(pid, season_type, df):
+season = "2025-26" #gotta automate season fetching
+
+#gotta figure out how trades work
+
+def updateStats(
+    pid: int, 
+    season_type: enum.Enum, 
+    df: pd.DataFrame, 
+    season: str
+) -> None:
     db.execute(
         update(models.SeasonStats)
-        .where(
-            models.SeasonStats.id == pid,
-            models.SeasonStats.season == 
-            models.SeasonStats.season_type == season_type,
-        )
+        .where(models.SeasonStats.id == pid)
+        .where(models.SeasonStats.season == season)
+        .where(models.SeasonStats.season_type == season_type)
         .values(
-            nicknames="The King",
-            school="Ohio State"
+            player_age = int(df.PLAYER_AGE),
+            gp = df["GP"].iloc[0],
+            gs = df.GS,
+            minutes = df.MIN,
         )
     )
+
+
 
 for player in players:
     pid = player["id"]
     stats = getSeasonStats(pid)
     regseason, postseason = stats[0], stats[1]
+    
+    regseason = regseason[regseason["SEASON"] == season]
+    postseason = postseason[postseason["SEASON"] == season]
+    
+    #print(regseason)
+    break
+    
     try:
-        updateStats(pid, models.SeasonType.regular, regseason)
-        updateStats(pid, models.SeasonType.playoffs, postseason)
+        #updateStats(pid, models.SeasonType.regular, regseason)
+        #updateStats(pid, models.SeasonType.playoffs, postseason)
         print(f"updated for {player["full_name"]}: {pid}")
         db.commit()
     except Exception as e:
