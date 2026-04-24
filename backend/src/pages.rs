@@ -40,10 +40,7 @@ pub struct Countries {
     pub country: String,
 }
 
-#[derive(Deserialize, Serialize, FromRow)]
-pub struct PlayerSuggestion {
-    pub name: String,
-}
+//fuck structs
 
 pub async fn player_stats(
     State(state): State<AppState>,
@@ -83,26 +80,4 @@ pub async fn countries( //(change this later i just want an endpoint for now)
     .unwrap();
 
     Json(countries)
-}
-
-pub async fn search_players(
-    State(state): State<AppState>,
-    Path(query): Path<String>,
-) -> Json<Vec<PlayerSuggestion>> {
-    let pattern = format!("%{}%", query.to_lowercase());
-    let results = sqlx::query_as::<_, PlayerSuggestion>(
-        r#"
-        SELECT DISTINCT p.name
-        FROM players p
-        WHERE LOWER(p.name) LIKE $1
-        ORDER BY p.name ASC
-        LIMIT 8
-        "#,
-    )
-    .bind(pattern)
-    .fetch_all(&state.pool)
-    .await
-    .unwrap();
-
-    Json(results)
 }
