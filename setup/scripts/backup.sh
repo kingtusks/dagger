@@ -4,7 +4,7 @@ set -e
 
 export $(grep -v '^#' .env | xargs)
 
-DB_URL=${DATABASE_URL}
+DB_URL=${POSTGRES_URL}
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="backup_${TIMESTAMP}.sql"
