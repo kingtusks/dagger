@@ -20,7 +20,8 @@ export default function Player() {
     return (
         <>
             <h1>{player_name}</h1>
-            <h2>{JSON.stringify(stats)}</h2>
+            <p>{JSON.stringify(stats)}</p>
+            <p>{JSON.stringify(awards)}</p>
         </>
     );
 }
