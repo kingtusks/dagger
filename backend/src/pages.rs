@@ -40,6 +40,13 @@ pub struct Countries {
     pub country: String,
 }
 
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct Awards {
+    pub name: String,
+    pub award: String,
+    pub year: String,
+}
+
 //fuck structs
 
 pub async fn player_stats(
@@ -80,4 +87,24 @@ pub async fn countries( //(change this later i just want an endpoint for now)
     .unwrap();
 
     Json(countries)
+}
+
+pub async fn awards(
+    State(state): State<AppState>,
+    Path(player_name): Path<String>,
+) -> Json<Vec<Awards>> {
+    let award = sqlx::query_as(
+        r#"
+        SELECT a.season, a.award_name
+        FROM awards a
+        JOIN players p ON p.player_id = a.player_id
+        WHERE LOWER(p.name) = LOWER($1)
+        ORDER BY a.season ASC
+        "#,
+    )
+    .bind(player_name)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+    Json(award)
 }
