@@ -43,8 +43,8 @@ pub struct Countries {
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct Awards {
     pub name: String,
-    pub award: String,
-    pub year: String,
+    pub award_name: String,
+    pub season: String,
 }
 
 //fuck structs
@@ -95,7 +95,7 @@ pub async fn awards(
 ) -> Json<Vec<Awards>> {
     let award = sqlx::query_as(
         r#"
-        SELECT a.season, a.award_name
+        SELECT p.name, a.season, a.award_name
         FROM awards a
         JOIN players p ON p.player_id = a.player_id
         WHERE LOWER(p.name) = LOWER($1)
