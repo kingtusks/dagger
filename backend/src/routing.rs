@@ -10,6 +10,7 @@ pub async fn app() -> Router {
         .route("/api/stats/{player_name}", get(pages::player_stats))
         .route("/api/awards/{player_name}", get(pages::awards))
         .route("/api/countries", get(pages::countries))
+        .route("/api/birthdays/{date}", get(pages::birthday))
         .with_state(state)
         .layer(CorsLayer::permissive())
 }

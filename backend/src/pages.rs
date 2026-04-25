@@ -1,6 +1,7 @@
 use axum::{Json, extract::{Path, State}};
 use sqlx::FromRow;
 use serde::{Serialize, Deserialize};
+use chrono::{Datelike, NaiveDate};
 
 use crate::db::AppState;
 
@@ -45,6 +46,12 @@ pub struct Awards {
     pub name: String,
     pub award_name: String,
     pub season: String,
+}
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct Birthday {
+    pub name: String,
+    pub birthdate: Option<NaiveDate>,
 }
 
 //fuck structs
@@ -93,7 +100,7 @@ pub async fn awards(
     State(state): State<AppState>,
     Path(player_name): Path<String>,
 ) -> Json<Vec<Awards>> {
-    let award = sqlx::query_as(
+    let awards = sqlx::query_as(
         r#"
         SELECT p.name, a.season, a.award_name
         FROM awards a
@@ -106,5 +113,34 @@ pub async fn awards(
     .fetch_all(&state.pool)
     .await
     .unwrap();
-    Json(award)
+
+    Json(awards)
+}
+
+pub async fn birthday(
+    State(state): State<AppState>,
+    Path(date): Path<String>,
+) -> Json<Vec<Birthday>> {
+
+    //we added the 2000 in front cus NaiveDate needs a year (we dont use year anyways)
+    let parsed = NaiveDate::parse_from_str(
+        &format!("2000-{}", date), 
+        "%Y-%m-%d"
+    ).unwrap();
+
+    let birthdays = sqlx::query_as(
+        r#"
+        SELECT p.name, p.birthdate
+        FROM players p
+        WHERE EXTRACT(MONTH FROM p.birthdate) = $1
+            AND EXTRACT(DAY FROM p.birthdate) = $2
+        "#,
+    )
+    .bind(parsed.month() as i32)
+    .bind(parsed.day() as i32)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(birthdays)
 }

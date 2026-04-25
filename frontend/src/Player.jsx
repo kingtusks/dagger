@@ -9,8 +9,10 @@ export default function Player() {
 
     useEffect(() => {
         Promise.all([
-            fetch(`http://localhost:3000/api/stats/${encodeURIComponent(player_name)}`).then(r => r.json()),
-            fetch(`http://localhost:3000/api/awards/${encodeURIComponent(player_name)}`).then(r => r.json()),
+            fetch(`http://localhost:3000/api/stats/${encodeURIComponent(player_name)}`)
+                .then(r => r.json()),
+            fetch(`http://localhost:3000/api/awards/${encodeURIComponent(player_name)}`)
+                .then(r => r.json()),
         ]).then(([statsData, awardsData]) => {
             setStats(statsData);
             setAwards(awardsData);
