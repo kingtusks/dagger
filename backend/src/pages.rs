@@ -54,6 +54,15 @@ pub struct Birthday {
     pub birthdate: Option<NaiveDate>,
 }
 
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct PlayerFromCountry {
+    pub name: String,
+    pub country: String,
+    pub pts: i32,
+    pub reb: i32,
+    pub ast: i32,
+}
+
 //fuck structs
 
 pub async fn player_stats(
@@ -143,4 +152,26 @@ pub async fn birthday(
     .unwrap();
 
     Json(birthdays)
+}
+
+#[allow(non_snake_case)]
+pub async fn players_from_country(
+    State(state): State<AppState>,
+    Path(country): Path<String>,
+) -> Json<Vec<PlayerFromCountry>> {
+    let playersFromCountry = sqlx::query_as(
+        r#"
+        SELECT p.name, p.country, s.pts, s.reb, s.ast
+        FROM season_stats s
+        JOIN players p ON p.player_id = s.player_id
+        WHERE LOWER(p.country) = LOWER($1)
+        ORDER BY s.pts DESC
+        "#,
+    )
+    .bind(country)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(playersFromCountry)
 }
