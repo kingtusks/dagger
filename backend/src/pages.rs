@@ -102,6 +102,7 @@ pub async fn players_from_country(
 ) -> Json<Vec<structs::PlayerFromCountry>> {
     let order_by = query.order_by;
 
+    //lower($2) will not work
     let playersFromCountry = sqlx::query_as(
         r#"
         SELECT p.name, p.country, s.pts, s.reb, s.ast
