@@ -100,23 +100,28 @@ pub async fn players_from_country(
     Path(country): Path<String>,
     Query(query): Query<queries::OrderByQuery>,
 ) -> Json<Vec<structs::PlayerFromCountry>> {
-    let order_by = query.order_by;
+    let order_by = match query.order_by.as_str() {
+        "ast" => "ast",
+        "reb" => "reb",
+        _ => "pts",
+    };
 
-    //lower($2) will not work
-    let playersFromCountry = sqlx::query_as(
+    let sql = format!(
         r#"
         SELECT p.name, p.country, s.pts, s.reb, s.ast
         FROM season_stats s
         JOIN players p ON p.player_id = s.player_id
         WHERE LOWER(p.country) = LOWER($1)
-        ORDER BY s.LOWER($2) DESC
+        ORDER BY s.{} DESC
         "#,
-    )
-    .bind(country)
-    .bind(order_by)
-    .fetch_all(&state.pool)
-    .await
-    .unwrap();
+        order_by
+    );
+
+    let playersFromCountry = sqlx::query_as(&sql)
+        .bind(country)
+        .fetch_all(&state.pool)
+        .await
+        .unwrap();
 
     Json(playersFromCountry)
 }
