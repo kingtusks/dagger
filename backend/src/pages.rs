@@ -125,3 +125,23 @@ pub async fn players_from_country(
 
     Json(playersFromCountry)
 }
+
+pub async fn general_info(
+    State(state): State<AppState>,
+    Path(player_name): Path<String>,
+) -> Json<Vec<structs::GeneralInfo>> {
+    let general_info = sqlx::query_as(
+        r#"
+        SELECT p.nicknames, p.country, p.school, p.birthdate, p.height, p.weight, p.draft_year,
+        p.draft_round, p.draft_pick
+        FROM players p
+        WHERE LOWER(p.name) = LOWER($1)
+        "#,
+    )
+    .bind(player_name)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(general_info)
+}

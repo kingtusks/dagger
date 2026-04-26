@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use serde_json::Value;
 use sqlx::FromRow;
 use chrono::NaiveDate;
 
@@ -58,4 +59,17 @@ pub struct PlayerFromCountry {
     pub pts: i32,
     pub reb: i32,
     pub ast: i32,
+}
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct GeneralInfo {
+    pub nicknames: Value,
+    pub country: String,
+    pub school: String,
+    pub birthdate: Option<NaiveDate>,
+    pub height: i32,
+    pub weight: i32,
+    pub draft_year: i32,
+    pub draft_round: i32,
+    pub draft_pick: i32,
 }

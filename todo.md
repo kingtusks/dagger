@@ -1,1 +1,0 @@
-fix the lower($2) thingy in pages.rs

@@ -8,6 +8,7 @@ pub async fn app() -> Router {
     let state = db::create_pool().await;
     Router::new()
         .route("/api/stats/{player_name}", get(pages::player_stats))
+        .route("/api/general_info/{player_name}", get(pages::general_info))
         .route("/api/awards/{player_name}", get(pages::awards))
         .route("/api/countries", get(pages::countries))
         .route("/api/countries/{country}", get(pages::players_from_country))
