@@ -80,4 +80,11 @@ pub struct AwardsBySeason {
     pub award_name: String,
 }
 
-//draft history
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct DraftHistory {
+    pub name: String,
+    pub draft_year: i32,
+    pub draft_round: i32,
+    pub draft_pick: i32,
+    //pub school: String,
+}

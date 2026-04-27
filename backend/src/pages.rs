@@ -158,9 +158,25 @@ pub async fn awards_by_season(
         "#,
     )
     .bind(award_type)
-    .fetch(&state.pool)
+    .fetch_all(&state.pool)
     .await
     .unwrap();
 
     Json(awards)
+}
+
+pub async fn draft_history(
+    State(state): State<AppState>,
+) -> Json<Vec<structs::DraftHistory>> {
+    let draft = sqlx::query_as(
+        r#"
+        SELECT p.name, p.draft_year, p.draft_round, p.draft_pick
+        FROM players p
+        "#,
+    )
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(draft)
 }
