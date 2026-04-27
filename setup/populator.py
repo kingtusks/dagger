@@ -114,7 +114,7 @@ for player in players:
 
         award_list = [
             models.Award(
-                player_id = pid, #dont hardcode this in prod
+                player_id = pid,
                 season = award.SEASON,
                 award_name = award.DESCRIPTION
             )

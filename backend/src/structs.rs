@@ -73,3 +73,11 @@ pub struct GeneralInfo {
     pub draft_round: i32,
     pub draft_pick: i32,
 }
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct AwardsBySeason {
+    pub season: String,
+    pub award_name: String,
+}
+
+//draft history

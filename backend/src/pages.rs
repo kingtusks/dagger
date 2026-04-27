@@ -145,3 +145,22 @@ pub async fn general_info(
 
     Json(general_info)
 }
+
+pub async fn awards_by_season(
+    State(state): State<AppState>,
+    Path(award_type): Path<String>,
+) -> Json<Vec<structs::AwardsBySeason>> {
+    let awards = sqlx::query_as(
+        r#"
+        SELECT a.season, a.award_name
+        FROM awards a
+        WHERE LOWER(a.award_name) = LOWER($1)
+        "#,
+    )
+    .bind(award_type)
+    .fetch(&state.pool)
+    .await
+    .unwrap();
+
+    Json(awards)
+}

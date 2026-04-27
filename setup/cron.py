@@ -18,4 +18,12 @@ db = sessionDB()
 year = "2025-26"
 
 for player in active_players:
-    
+    pid = player["id"]
+
+    needs_updating = True if db.get(models.Player) else False 
+
+    if needs_updating:
+        pstats = getSeasonStats(pid)
+        regseason, postseason = pstats[0], pstats[1]
+    else:
+        print('stub')
