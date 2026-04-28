@@ -88,3 +88,6 @@ pub struct DraftHistory {
     pub draft_pick: i32,
     //pub school: String,
 }
+
+//#[derive(Deserialize, Serialize, FromRow)]
+//pub struct TeamInfo {}

@@ -76,3 +76,10 @@ class Award(Base):
     award_name = Column(String(100))
 
     player = relationship("Player", back_populates="awards")
+
+class Team(Base):
+    __tablename__ = "teams"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    team_id = Column(Integer)
+    players = Column(JSONB)
