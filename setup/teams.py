@@ -15,6 +15,9 @@ tid_list = [team["id"] for team in all_teams]
 
 for tid in tid_list:
     try:
+        if db.get(models.Team, tid):
+            continue
+
         roster = commonteamroster.CommonTeamRoster(
             team_id=tid,
             league_id_nullable="00",
@@ -63,7 +66,7 @@ for tid in tid_list:
 
         team_model = models.Team(
             team_id = tid,
-            players = dict(list(sorted_player_dict.items())[:3]),
+            players = sorted_player_dict,
         )
         
         db.add(team_model)
