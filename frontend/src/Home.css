@@ -21,7 +21,6 @@ body {
     font-family: var(--title-font);
 }
 
-/* ---------- layout ---------- */
 
 .home {
     min-height: 100vh;
@@ -29,7 +28,6 @@ body {
     flex-direction: column;
 }
 
-/* ---------- masthead ---------- */
 
 .masthead {
     border-bottom: var(--border);
@@ -105,8 +103,6 @@ body {
 .nav-bar a:hover {
     color: var(--red-text-color);
 }
-
-/* ---------- hero ---------- */
 
 .hero {
     padding: 48px 48px 0;
@@ -229,7 +225,6 @@ body {
     color: var(--muted);
 }
 
-/* ---------- section grid ---------- */
 
 .section-grid {
     padding: 48px;
@@ -290,7 +285,6 @@ body {
     opacity: 0.65;
 }
 
-/* ---------- footer ---------- */
 
 .home-footer {
     padding: 20px 48px;
@@ -317,7 +311,6 @@ body {
     color: var(--muted);
 }
 
-/* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
     .masthead,

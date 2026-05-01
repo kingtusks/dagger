@@ -11,9 +11,14 @@ db = sessionDB()
 season = "2025-26"
 
 all_teams = teams.get_teams()
-tid_list = [team["id"] for team in all_teams]
 
-for tid in tid_list:
+for team_dict in all_teams:
+    tid = team_dict["id"]
+    team_abbr = team_dict["abbreviation"]
+    team_name = team_dict["full_name"]
+    team_state = team_dict["state"]
+    year_founded = team_dict["year_founded"]
+
     try:
         if db.get(models.Team, tid):
             continue
@@ -66,6 +71,10 @@ for tid in tid_list:
 
         team_model = models.Team(
             team_id = tid,
+            abbreviation = team_abbr,
+            name = team_name,
+            state = team_state,
+            year_founded = year_founded,
             players = sorted_player_dict,
         )
         

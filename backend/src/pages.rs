@@ -183,4 +183,17 @@ pub async fn draft_history(
 
 pub async fn teams(
     State(state): State<AppState>
-) -> Json<Vec<>>
+) -> Json<Vec<structs::TeamInfo>> {
+    let team = sqlx::query_as(
+        r#"
+        SELECT t.abbreviation, t.name, t.state, t.year_founded,
+        t.players
+        FROM teams t
+        "#,
+    )
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(team)
+}
