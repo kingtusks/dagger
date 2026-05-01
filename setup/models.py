@@ -82,4 +82,6 @@ class Team(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     team_id = Column(Integer)
+    team_abbr = Column(String(5))
+    team_name = Column(String(100))
     players = Column(JSONB)

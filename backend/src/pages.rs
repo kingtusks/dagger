@@ -181,6 +181,6 @@ pub async fn draft_history(
     Json(draft)
 }
 
-/*pub async fn teams(
+pub async fn teams(
     State(state): State<AppState>
-) -> Json<Vec<>> */
+) -> Json<Vec<>>

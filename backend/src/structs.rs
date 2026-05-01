@@ -89,5 +89,10 @@ pub struct DraftHistory {
     //pub school: String,
 }
 
-//#[derive(Deserialize, Serialize, FromRow)]
-//pub struct TeamInfo {}
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct TeamInfo {
+    pub team_id: i32,
+    pub team_abbr: String,
+    pub team_name: String,
+    pub players: Value,
+}
