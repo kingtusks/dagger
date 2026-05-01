@@ -87,3 +87,14 @@ class Team(Base):
     state = Column(String)
     year_founded = Column(Integer)
     players = Column(JSONB)
+
+class Leaders(Base):
+    __tablename__ = "stat_leaders"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    season = Column(String(10))
+    pts = Column(JSONB)
+    reb = Column(JSONB)
+    ast = Column(JSONB)
+    stl = Column(JSONB)
+    blk = Column(JSONB)
