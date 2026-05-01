@@ -198,4 +198,18 @@ pub async fn teams(
     Json(team)
 }
 
-/* stat leaders */
+pub async fn league_leaders(
+    State(state): State<AppState>
+) -> Json<Vec<structs::LeagueLeaders>> {
+    let league_leaders = sqlx::query_as(
+        r#"
+        SELECT s.season, s.pts, s.reb, s.ast, s.stl, s.blk
+        FROM stat_leaders s
+        "#,
+    )
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(league_leaders)
+}

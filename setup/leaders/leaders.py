@@ -34,6 +34,9 @@ seasons = seasonMaker()
 
 for season in seasons:
     try:
+        if db.get(models.Leaders, season):
+            continue
+        
         leaders = getStatLeaders(season)
         start_year = int(season.split("-")[0])
         

@@ -98,3 +98,13 @@ pub struct TeamInfo {
     pub year_founded: i32,
     pub players: Value,
 }
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct LeagueLeaders {
+    pub season: String,
+    pub pts: Value,
+    pub reb: Value,
+    pub ast: Value,
+    pub stl: Option<Value>,
+    pub blk: Option<Value>,
+}
