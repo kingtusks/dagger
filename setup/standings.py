@@ -16,16 +16,20 @@ def getStandings(season: str):
     east_df, west_df = standings_df[standings_df["Conference"] == "East"], standings_df[standings_df["Conference"] == "West"]
     return east_df, west_df
 
-def makeModel(df, season, conference):
-    player_dict = {}
+def makeModels(df, season, conference):
     conference_enum = models.ConferenceType.east if conference.lower() == "east" else models.ConferenceType.west
     
+    standings_list = [
+        models.Standing(
+            team_id = df.TeamID,
+            rank = df.PlayoffRank,
+            season = season,
+            conference = conference_enum,
+        )
+        for row in df.itertuples()
+    ]
 
-    return models.Standing(
-        season = season,
-        conference = conference_enum,
-        players = player_dict,
-    )
+    return standings_list
 
 seasons = seasonMaker()
 
@@ -37,7 +41,14 @@ for season in seasons:
         standings = getStandings(season)
         east, west = standings[0], standings[1] 
 
+        east_models = makeModels(east, season, "east")
+        west_models = makeModels(west, season, "west")
+
+        db.add_all(east_models)
+        db.add_all(west_models)
+        db.commit()
+        print(f"done with season: {season}")
     except Exception as e:
-        #db.rollback()
+        db.rollback()
         print(f"failed on season: {season}\n\n{e}")
         break
