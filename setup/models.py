@@ -12,6 +12,10 @@ class SeasonType(enum.Enum):
     regular = "regular"
     playoffs = "playoffs"
 
+class ConferenceType(enum.Enum):
+    east = "east"
+    west = "west"
+
 class Player(Base):
     __tablename__ = "players"
 
@@ -87,6 +91,9 @@ class Team(Base):
     state = Column(String)
     year_founded = Column(Integer)
     players = Column(JSONB)
+    #championships = Column(JSONB)
+
+    standings = relationship("Standing", back_populates="team")
 
 class Leaders(Base):
     __tablename__ = "stat_leaders"
@@ -98,3 +105,14 @@ class Leaders(Base):
     ast = Column(JSONB)
     stl = Column(JSONB)
     blk = Column(JSONB)
+
+class Standing(Base):
+    __tablename__ = "standings"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    team_id = Column(Integer, ForeignKey("teams.team_id"), nullable=False)
+    rank = Column(Integer)
+    season = Column(String(10))
+    conference = Column(Enum(ConferenceType), nullable=False)
+
+    team = relationship("Team", back_populates="standings")

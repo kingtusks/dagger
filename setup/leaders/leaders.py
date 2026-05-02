@@ -2,9 +2,7 @@ import time
 import models
 from database import sessionDB, engine
 from nba_api.stats.endpoints import leagueleaders
-
-def seasonMaker():
-    return [f"{y}-{str(y + 1)[-2:]}" for y in range(1951, 2026)] #make the end current year + 1
+from season_maker import seasonMaker
 
 def getStatLeaders(season: str):
     start_year = int(season.split("-")[0])

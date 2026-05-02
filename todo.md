@@ -1,0 +1,1 @@
+for team pages we could have a seed heatmap with 16 being red and 1 being green
