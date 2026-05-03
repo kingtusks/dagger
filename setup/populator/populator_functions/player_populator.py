@@ -9,7 +9,7 @@ from .populator_helpers.player import getPlayerInfo, to_CM
 from .populator_helpers.award import getAwards
 from .populator_helpers.stats import getSeasonStats
 
-print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+#print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 import models
@@ -27,7 +27,6 @@ def populatePlayers():
     player_list = nba_players.get_players()
 
     for player in player_list:
-        time.sleep(1)
         try:
             pid = player["id"]
 
@@ -148,7 +147,7 @@ def populatePlayers():
             db.add_all(award_list)
             db.commit()
             print(f"finished {player['full_name']}: {player['id']}")
-
+            time.sleep(1)
         except KeyError as e:
             print(f"failed on {player['full_name']}: {player['id']} \n\n{e}")
             with open("fails.txt", "a") as f:
