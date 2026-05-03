@@ -39,13 +39,14 @@ def makeModels(df, season, conference):
 def getStatLeaders(season: str):
     start_year = int(season.split("-")[0])
     categories = ["PTS", "REB", "AST"] if start_year < 1973 else ["PTS", "REB", "AST", "STL", "BLK"]
+    per_mode = "Totals" if start_year < 1969 else "PerGame"
     leader_dict = {}
 
     for category in categories:
         leaders = leagueleaders.LeagueLeaders(
             league_id = "00",
             season = season,
-            per_mode48 = "PerGame", #!!!
+            per_mode48 = per_mode,
             stat_category_abbreviation = category,
             season_type_all_star = "Regular Season",
             scope = "S",
