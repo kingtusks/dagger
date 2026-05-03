@@ -3,7 +3,7 @@ import sys
 import time
 from nba_api.stats.endpoints import leagueleaders
 from nba_api.stats.endpoints import leaguestandings
-from populator_helpers.season_maker import seasonMaker
+from .populator_helpers.season_maker import seasonMaker
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 

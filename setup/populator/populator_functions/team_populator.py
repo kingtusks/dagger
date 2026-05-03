@@ -9,7 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 import models
 from database import engine, sessionDB
 
-def populate_teams(season: str):
+def populateTeams(season: str):
     models.Base.metadata.create_all(bind=engine)
     db = sessionDB()
     all_teams = teams.get_teams()

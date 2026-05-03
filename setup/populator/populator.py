@@ -1,0 +1,7 @@
+from populator_functions.player_populator import populatePlayers
+from populator_functions.season_info_populator import populateSeasonInfo
+from populator_functions.team_populator import populateTeams
+
+populatePlayers()
+populateSeasonInfo()
+populateTeams()

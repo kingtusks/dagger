@@ -4,17 +4,18 @@ import os
 from nba_api.stats.static import players as nba_players
 from datetime import datetime
 
-from populator_helpers.agent import getExtraPlayerInfo
-from populator_helpers.player import getPlayerInfo, to_CM
-from populator_helpers.award import getAwards
-from populator_helpers.stats import getSeasonStats
+from .populator_helpers.agent import getExtraPlayerInfo
+from .populator_helpers.player import getPlayerInfo, to_CM
+from .populator_helpers.award import getAwards
+from .populator_helpers.stats import getSeasonStats
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+print(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 import models
 from database import engine, sessionDB
 
-def populate_players():
+def populatePlayers():
     try:
         with open("fails.txt", "r") as f:
             failed_ids = {int(line.split(": ")[1]) for line in f if line.strip()}
