@@ -4,6 +4,8 @@ from nba_api.stats.endpoints import leaguestandings
 from season_maker import seasonMaker
 from database import engine, sessionDB
 
+#season
+
 models.Base.metadata.create_all(bind=engine)
 db = sessionDB()
 
@@ -24,6 +26,7 @@ def makeModels(df, season, conference):
         models.Standing(
             team_id = row.TeamID,
             rank = row.PlayoffRank,
+            record = row.Record,
             season = season,
             conference = conference_enum,
         )

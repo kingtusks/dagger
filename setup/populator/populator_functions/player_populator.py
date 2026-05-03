@@ -9,6 +9,7 @@ from setup_functions.agent import getExtraPlayerInfo
 from setup_functions.player import getPlayerInfo, to_CM
 from setup_functions.award import getAwards
 from setup_functions.stats import getSeasonStats
+from setup_functions.season_maker import seasonMaker
 
 players= players.get_players()
 
@@ -154,5 +155,6 @@ for player in players:
         db.rollback()
         print(f"failed on {player['full_name']}: {player['id']} \n\n{e}")
         break
+
 
 db.close()    

@@ -5,6 +5,8 @@ from database import engine, sessionDB
 from nba_api.stats.static import teams
 from nba_api.stats.endpoints import commonteamroster, playercareerstats
 
+#standalone
+
 models.Base.metadata.create_all(bind=engine)
 db = sessionDB()
 

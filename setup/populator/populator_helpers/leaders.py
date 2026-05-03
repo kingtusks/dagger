@@ -4,6 +4,8 @@ from database import sessionDB, engine
 from nba_api.stats.endpoints import leagueleaders
 from season_maker import seasonMaker
 
+#season
+
 def getStatLeaders(season: str):
     start_year = int(season.split("-")[0])
     categories = ["PTS", "REB", "AST"] if start_year < 1973 else ["PTS", "REB", "AST", "STL", "BLK"]

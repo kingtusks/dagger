@@ -112,6 +112,7 @@ class Standing(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     team_id = Column(Integer, ForeignKey("teams.team_id"), nullable=False)
     rank = Column(Integer)
+    record = Column(String(10))
     season = Column(String(10))
     conference = Column(Enum(ConferenceType), nullable=False)
 

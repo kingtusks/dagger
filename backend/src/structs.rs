@@ -108,3 +108,14 @@ pub struct LeagueLeaders {
     pub stl: Option<Value>,
     pub blk: Option<Value>,
 }
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct Standings {
+    pub team_id: i32,
+    pub name: String,
+    pub abbreviation: String,
+    pub rank: i32, 
+    pub season: String,
+    pub conference: String,
+    pub record: String,
+}
