@@ -1,4 +1,5 @@
 import models
+import time
 from nba_api.stats.endpoints import leaguestandings
 from season_maker import seasonMaker
 from database import engine, sessionDB
@@ -21,8 +22,8 @@ def makeModels(df, season, conference):
     
     standings_list = [
         models.Standing(
-            team_id = df.TeamID,
-            rank = df.PlayoffRank,
+            team_id = row.TeamID,
+            rank = row.PlayoffRank,
             season = season,
             conference = conference_enum,
         )
@@ -33,9 +34,9 @@ def makeModels(df, season, conference):
 
 seasons = seasonMaker()
 
-for season in seasons:
+for idx, season in enumerate(seasons):
     try:
-        if db.get(models.Standings, season):
+        if db.get(models.Standing, idx + 1):
             continue
 
         standings = getStandings(season)
@@ -48,6 +49,7 @@ for season in seasons:
         db.add_all(west_models)
         db.commit()
         print(f"done with season: {season}")
+        time.sleep(1)
     except Exception as e:
         db.rollback()
         print(f"failed on season: {season}\n\n{e}")

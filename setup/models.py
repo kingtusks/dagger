@@ -85,7 +85,7 @@ class Team(Base):
     __tablename__ = "teams"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    team_id = Column(Integer)
+    team_id = Column(Integer, unique=True)
     abbreviation = Column(String(5))
     name = Column(String(100))
     state = Column(String)
