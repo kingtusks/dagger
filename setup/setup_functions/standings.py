@@ -32,6 +32,7 @@ def makeModels(df, season, conference):
 
     return standings_list
 
+
 seasons = seasonMaker()
 
 for idx, season in enumerate(seasons):
@@ -44,7 +45,7 @@ for idx, season in enumerate(seasons):
 
         east_models = makeModels(east, season, "east")
         west_models = makeModels(west, season, "west")
-
+        print(east_models)
         db.add_all(east_models)
         db.add_all(west_models)
         db.commit()
