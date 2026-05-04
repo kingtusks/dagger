@@ -119,3 +119,26 @@ pub struct Standings {
     pub season: String,
     pub conference: String,
 }
+
+//everything under here is gonna be for the prediction stuff
+
+#[derive(Deserialize, Serialize, FromRow)]
+pub struct SeasonData {
+    age: String,
+    season: String,
+    team: String,
+    teammates: Vec<String>,
+    position: String,
+    minutes: i32,
+    usage_pct: f64,
+    gp: i32,
+    gs: i32,
+    fg_pct: f64,
+    ts_pct: f64,
+    pts: i32,
+    oreb: i32,
+    dreb: i32,
+    ast: i32,
+    stl: i32,
+    blk: i32,
+}
