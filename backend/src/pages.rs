@@ -213,3 +213,25 @@ pub async fn league_leaders(
 
     Json(league_leaders)
 }
+
+pub async fn standings(
+    State(state): State<AppState>,
+    Path(season): Path<String>,
+) -> Json<Vec<structs::Standings>> {
+    let standings = sqlx::query_as(
+        r#"
+        SELECT t.team_id, t.name, t.abbreviation, s.rank, s.record,
+        s.season, s.conference
+        FROM standings s
+        JOIN teams t ON s.team_id = t.team_id
+        WHERE season = $1
+        ORDER BY s.rank ASC
+        "#,
+    )
+    .bind(season)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(standings)
+}

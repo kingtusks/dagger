@@ -115,7 +115,7 @@ pub struct Standings {
     pub name: String,
     pub abbreviation: String,
     pub rank: i32, 
+    pub record: String,
     pub season: String,
     pub conference: String,
-    pub record: String,
 }

@@ -17,6 +17,7 @@ pub async fn app() -> Router {
         .route("/api/draft_history", get(pages::draft_history))
         .route("/api/teams", get(pages::teams))
         .route("/api/league_leaders", get(pages::league_leaders))
+        .route("/api/standings/{season}", get(pages::standings))
         .with_state(state)
         .layer(CorsLayer::permissive())
 }
