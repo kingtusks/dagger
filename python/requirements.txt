@@ -5,3 +5,6 @@ nba_api
 ddgs
 langchain-core
 langchain-ollama
+
+fastapi[standard]
+pydantic
