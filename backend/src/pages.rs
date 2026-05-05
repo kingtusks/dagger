@@ -235,3 +235,27 @@ pub async fn standings(
 
     Json(standings)
 }
+
+//endpoints for prediction algos vvvvvv
+
+pub async fn predict_season_stats(
+    State(state): State<AppState>,
+    Path(player): Path<String>,
+) -> Json<Vec<structs::SeasonData>> {
+    //gotta do more python model stuff (sigh)
+    let seasons = sqlx::query_as(
+        //teammates + position
+        r#"
+        SELECT s.player_age, s.season, s.team_abbr, s.minutes,
+        s.gp, s.gs, s.fg_pct, s.ft_pct, s.pts, s.oreb, s.dreb, s.ast,
+        s.stl, s.blk
+        FROM season_stats s
+        "#,
+    )
+    .bind(player)
+    .fetch_all(&state.pool)
+    .await
+    .unwrap();
+
+    Json(seasons) //stub cus im gonna pass this to my ml api
+}

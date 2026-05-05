@@ -92,6 +92,7 @@ pub struct DraftHistory {
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct TeamInfo {
     pub team_id: i32,
+    //add season
     pub abbreviation: String,
     pub name: String,
     pub state: String,
@@ -124,17 +125,16 @@ pub struct Standings {
 
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct SeasonData {
-    age: String,
+    player_age: i32,
     season: String,
-    team: String,
+    team_abbr: String,
     teammates: Vec<String>,
     position: String,
     minutes: i32,
-    usage_pct: f64,
     gp: i32,
     gs: i32,
     fg_pct: f64,
-    ts_pct: f64,
+    ft_pct: f64,
     pts: i32,
     oreb: i32,
     dreb: i32,
