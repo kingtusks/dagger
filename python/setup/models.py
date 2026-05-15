@@ -45,6 +45,7 @@ class SeasonStats(Base):
     season = Column(String(10))
     team_id = Column(Integer)
     team_abbr = Column(String(5))
+    position = Column(String(5)) #(add this in pop) 
     season_type = Column(Enum(SeasonType), nullable=False, default=SeasonType.regular)
     player_age = Column(Integer)
     gp = Column(Integer)

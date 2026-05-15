@@ -3,17 +3,16 @@ import pandas as pd
 from pydantic import BaseModel
 
 class SeasonData(BaseModel):
-    age: int
-    season: str
-    team: str
-    teammates: list[str]
-    position: str
+    player_age: int
+    #season: str
+    team_abbr: str
+    #teammates: list[str]
+    #position: str
     minutes: int
-    usage_pct: float
     gp: int
     gs: int
     fg_pct: float
-    ts_pct: float
+    ft_pct: float
     pts: int
     oreb: int
     dreb: int
@@ -21,8 +20,7 @@ class SeasonData(BaseModel):
     stl: int
     blk: int
 
-def predictSeason(seasons: list[SeasonData], player_name: str):
+def predictSeason(player_name: str, seasons: dict[str, SeasonData]):
     #convert list of season datas to dataframe
-    df = pd.DataFrame([season.model_dump() for season in seasons])
 
     return {"a": "stub"}

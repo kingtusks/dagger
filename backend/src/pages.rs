@@ -241,21 +241,39 @@ pub async fn standings(
 pub async fn predict_season_stats(
     State(state): State<AppState>,
     Path(player): Path<String>,
-) -> Json<Vec<structs::SeasonData>> {
+) -> Json<serde_json::Value> {
     //gotta do more python model stuff (sigh)
-    let seasons = sqlx::query_as(
+    let seasons: Vec<structs::SeasonData> = sqlx::query_as(
         //teammates + position
+        //make it return a list of stats per season
         r#"
-        SELECT s.player_age, s.season, s.team_abbr, s.minutes,
+        SELECT s.player_age, s.team_abbr, s.minutes,
         s.gp, s.gs, s.fg_pct, s.ft_pct, s.pts, s.oreb, s.dreb, s.ast,
         s.stl, s.blk
         FROM season_stats s
+        JOIN players p ON p.player_id = s.player_id
+        WHERE LOWER(p.name) = LOWER($1)
+        ORDER BY s.season DESC
         "#,
     )
-    .bind(player)
+    .bind(&player)
     .fetch_all(&state.pool)
     .await
     .unwrap();
 
-    Json(seasons) //stub cus im gonna pass this to my ml api
+    let predict = state
+        .http
+        .post(format!(
+            "http://localhost:8000/ml/predict/season/{}",
+            player
+        ))
+        .json(&seasons)
+        .send()
+        .await
+        .unwrap()
+        .json::<serde_json::Value>()
+        .await
+        .unwrap();
+
+    Json(predict) //stub cus im gonna pass this to my ml api
 }
