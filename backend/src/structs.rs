@@ -126,7 +126,7 @@ pub struct Standings {
 #[derive(Deserialize, Serialize, FromRow)]
 pub struct SeasonData {
     player_age: i32,
-    //season: String,
+    season: String,
     team_abbr: String,
     //teammates: Vec<String>,
     //position: String,

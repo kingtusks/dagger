@@ -247,7 +247,7 @@ pub async fn predict_season_stats(
         //teammates + position
         //make it return a list of stats per season
         r#"
-        SELECT s.player_age, s.team_abbr, s.minutes,
+        SELECT s.player_age, s.season, s.team_abbr, s.minutes,
         s.gp, s.gs, s.fg_pct, s.ft_pct, s.pts, s.oreb, s.dreb, s.ast,
         s.stl, s.blk
         FROM season_stats s

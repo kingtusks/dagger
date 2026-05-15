@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class SeasonData(BaseModel):
     player_age: int
-    #season: str
+    season: str
     team_abbr: str
     #teammates: list[str]
     #position: str
@@ -20,7 +20,7 @@ class SeasonData(BaseModel):
     stl: int
     blk: int
 
-def predictSeason(player_name: str, seasons: dict[str, SeasonData]):
+def predictSeason(player_name: str, ):
     #convert list of season datas to dataframe
 
     return {"a": "stub"}
