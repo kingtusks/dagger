@@ -20,7 +20,7 @@ class SeasonData(BaseModel):
     stl: int
     blk: int
 
-def predictSeason(player_name: str, ):
-    #convert list of season datas to dataframe
-
-    return {"a": "stub"}
+def predictSeason(player_name: str, season_data: list[SeasonData]):
+    df = pd.DataFrame([season.model_dump() for season in season_data])
+    print(df)
+    return {"stub": "a"}

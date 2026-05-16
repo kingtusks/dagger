@@ -18,6 +18,8 @@ pub async fn app() -> Router {
         .route("/api/teams", get(pages::teams))
         .route("/api/league_leaders", get(pages::league_leaders))
         .route("/api/standings/{season}", get(pages::standings))
+        //v ml
+        .route("/api/ml/season_stats/{player}", get(pages::predict_season_stats))
         .with_state(state)
         .layer(CorsLayer::permissive())
 }

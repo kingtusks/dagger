@@ -275,5 +275,5 @@ pub async fn predict_season_stats(
         .await
         .unwrap();
 
-    Json(predict) //stub cus im gonna pass this to my ml api
+    Json(predict)
 }

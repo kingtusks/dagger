@@ -132,7 +132,7 @@ pub struct SeasonData {
     //position: String,
     minutes: i32,
     gp: i32,
-    gs: i32,
+    gs: Option<i32>,
     fg_pct: f64,
     ft_pct: f64,
     pts: i32,
